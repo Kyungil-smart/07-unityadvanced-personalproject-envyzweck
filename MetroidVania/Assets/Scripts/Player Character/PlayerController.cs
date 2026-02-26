@@ -6,18 +6,16 @@ public class PlayerController : MonoBehaviour
     public StateMachine StateMachine { get; private set; }
     public Vector2 moveInput;
     public Rigidbody2D rb;
-    public float moveSpeed = 5f;
-    public float jumpForce = 7f;
+    [SerializeField]public float moveSpeed = 5f;
+    [SerializeField]public float jumpForce = 7f;
 
     private PlayerInput _playerInput;
-
-    // Ground Check
+    
     public Transform groundCheck;
-    public float groundCheckDistance = 0.2f;
+    [SerializeField]public float groundCheckDistance = 0.2f;
     public LayerMask groundLayer;
-
-    // Jump Buffer
-    private float jumpBufferTime = 0.15f; // 버퍼 시간 (초)
+    
+    [SerializeField]private float jumpBufferTime = 0.15f; 
     private float jumpBufferCounter;
 
     private void Awake()
