@@ -12,6 +12,7 @@ public class IdleState : IState
     public void Enter()
     {
         Debug.Log("Idle 상태 진입");
+        _player.animator.SetFloat("MoveSpeed", 0f);
     }
 
     public void Exit()
@@ -21,9 +22,14 @@ public class IdleState : IState
 
     public void Update()
     {
-        if (_player.moveInput.x != 0)
+        if (Mathf.Abs(_player.moveInput.x) > 0.01f)
         {
-            _player.StateMachine.ChangeState(new RunState(_player));
+            _player.StateMachine.ChangeState(_player.RunState);
+        }
+        if (_player.bufferedAttack)
+        {
+            _player.bufferedAttack = false;
+            _player.StateMachine.ChangeState(_player.AttackState);
         }
     }
 }

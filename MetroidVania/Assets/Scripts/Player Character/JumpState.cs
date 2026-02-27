@@ -13,14 +13,16 @@ public class JumpState : IState
     {
         Debug.Log("Jump 상태 진입");
 
-        // 착지 직후 y속도 초기화
+        // 착지 직후 떨어지는 속도 초기화
         _player.rb.linearVelocity = new Vector2(
             _player.rb.linearVelocity.x,
             0f
         );
-
-        // 점프 힘 적용
+        
         _player.rb.AddForce(Vector2.up * _player.jumpForce, ForceMode2D.Impulse);
+        
+        _player.animator.SetTrigger("Jump");
+
     }
 
     public void Exit()
