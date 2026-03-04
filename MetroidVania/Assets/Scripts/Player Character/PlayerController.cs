@@ -11,8 +11,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     public delegate void OnManaChanged(int current, int max);
     public event OnManaChanged ManaChanged;
 
-
-
     public StateMachine StateMachine { get; private set; }
     public Vector2 moveInput;
     public Rigidbody2D rb;
@@ -25,11 +23,11 @@ public class PlayerController : MonoBehaviour, IDamageable
     private PlayerInput _playerInput;
 
     public Transform groundCheck;
-    [SerializeField] public float groundCheckDistance = 0.2f;
+    [SerializeField] public float groundCheckRadius = 0.15f; 
     public LayerMask groundLayer;
 
     [SerializeField] private float jumpBufferTime = 0.15f;
-    private float jumpBufferCounter;
+    public float jumpBufferCounter;
 
     // 콤보
     public int ComboStep = 0;
@@ -99,8 +97,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     
     public bool IsGrounded()
     {
-        RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
-        return hit.collider != null;
+        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
     public void TakeDamage(int damage)
@@ -138,7 +135,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (groundCheck != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * groundCheckDistance);
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
+
 }

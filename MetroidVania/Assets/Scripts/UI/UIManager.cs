@@ -5,12 +5,13 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [Header("Player UI")]
+    public TextMeshProUGUI playerName;
     public Slider hpBar;
     public TextMeshProUGUI hpText;
     public Slider manaBar;
     public TextMeshProUGUI manaText;
     public Image playerPortrait;
-
+    
     public PlayerController player;
 
     private void Start()
@@ -22,6 +23,11 @@ public class UIManager : MonoBehaviour
         // 초기값 불러오기
         UpdateHealthUI(player.stats.currentHealth, player.stats.maxHealth);
         UpdateManaUI(player.stats.currentMana, player.stats.maxMana);
+        
+        if (playerName != null && player.characterData != null)
+        {
+            playerName.text = player.characterData.characterName;
+        }
 
         if (playerPortrait != null && player.characterData != null)
         {
