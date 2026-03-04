@@ -5,7 +5,7 @@ public class FollowCamera : MonoBehaviour
 {
     public CinemachineCamera followCamera;  
     public SpriteRenderer playerRenderer;
-    public Vector2 baseOffset = new Vector2(2f, 0f);
+    public Vector2 baseOffset = new Vector2(1f, 2f);
 
     private CinemachinePositionComposer composer;
 

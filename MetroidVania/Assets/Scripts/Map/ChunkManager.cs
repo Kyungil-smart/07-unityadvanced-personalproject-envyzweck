@@ -20,6 +20,9 @@ public class ChunkManager : MonoBehaviour
                 Vector2Int gridPos = WorldToGrid(child.position);
                 if (!chunkGrid.ContainsKey(gridPos))
                     chunkGrid.Add(gridPos, child.gameObject);
+                
+                Debug.Log($"등록됨: {child.name} at {gridPos}");
+
             }
         }
     }
@@ -42,6 +45,9 @@ public class ChunkManager : MonoBehaviour
                     bool shouldBeActive = dist < activeRadius;
 
                     if (chunk.activeSelf != shouldBeActive)
+                        Debug.Log($"{chunk.name} 활성화 상태 변경: {shouldBeActive}");
+                        Debug.Log($"{chunk.name} dist={dist}, active={shouldBeActive}");
+
                         chunk.SetActive(shouldBeActive);
                 }
             }

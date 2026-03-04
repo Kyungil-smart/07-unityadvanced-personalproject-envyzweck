@@ -34,7 +34,7 @@ public class JumpState : IState
 
     public void Update()
     {
-        // 공중 이동 처리
+        // 공중 이동
         _player.rb.linearVelocity = new Vector2(
             _player.moveInput.x * _player.stats.speed,
             _player.rb.linearVelocity.y
