@@ -3,62 +3,76 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour
 {
-    public Transform player;          // 플레이어 참조
-    public float activeRadius = 30f;  // 플레이어 주변 활성화 거리
-    public Vector2Int gridSize = new Vector2Int(50, 50); // Chunk 크기 (타일 단위)
+    public Transform player;
+    public float activeRadius = 30f;
+    public Vector2Int gridSize = new Vector2Int(50, 50);
 
-    // 그리드 인덱스로 Chunk를 관리
     private Dictionary<Vector2Int, GameObject> chunkGrid = new Dictionary<Vector2Int, GameObject>();
 
     void Start()
     {
-        // 씬 내 모든 Chunk 등록
-        foreach (Transform child in transform)
+        foreach (Transform chunk in transform) 
         {
-            if (child.name.StartsWith("Chunk"))
+            if (chunk.name.StartsWith("Chunk"))
             {
-                Vector2Int gridPos = WorldToGrid(child.position);
-                if (!chunkGrid.ContainsKey(gridPos))
-                    chunkGrid.Add(gridPos, child.gameObject);
-                
-                Debug.Log($"등록됨: {child.name} at {gridPos}");
+                Vector2Int gridPos = WorldToGrid(chunk.position);
 
+                if (!chunkGrid.ContainsKey(gridPos))
+                {
+                    chunkGrid.Add(gridPos, chunk.gameObject);
+                    Debug.Log($"등록됨: {chunk.name} at {gridPos}");
+                }
+                else
+                {
+                    Debug.LogWarning($"중복된 그리드 좌표 발견: {chunk.name}이 {gridPos}에 있음.");
+                }
             }
         }
     }
 
     void Update()
     {
-        // 플레이어가 속한 그리드 좌표
+        if (player == null) return;
+
         Vector2Int playerGrid = WorldToGrid(player.position);
 
-        // 플레이어 주변 셀만 검사
-        for (int x = -1; x <= 1; x++)
+        foreach (var kvp in chunkGrid)
         {
-            for (int y = -1; y <= 1; y++)
+            GameObject chunk = kvp.Value;
+            float dist = Vector2.Distance(new Vector2(player.position.x, player.position.y), 
+                                          new Vector2(chunk.transform.position.x, chunk.transform.position.y));
+            
+            bool shouldBeActive = dist < activeRadius;
+            
+            if (chunk.activeSelf != shouldBeActive)
             {
-                Vector2Int checkGrid = new Vector2Int(playerGrid.x + x, playerGrid.y + y);
-
-                if (chunkGrid.TryGetValue(checkGrid, out GameObject chunk))
-                {
-                    float dist = Vector2.Distance(player.position, chunk.transform.position);
-                    bool shouldBeActive = dist < activeRadius;
-
-                    if (chunk.activeSelf != shouldBeActive)
-                        Debug.Log($"{chunk.name} 활성화 상태 변경: {shouldBeActive}");
-                        Debug.Log($"{chunk.name} dist={dist}, active={shouldBeActive}");
-
-                        chunk.SetActive(shouldBeActive);
-                }
+                chunk.SetActive(shouldBeActive);
+                Debug.Log($"{chunk.name} 활성화: {shouldBeActive} (거리: {dist})");
             }
         }
     }
 
-    // 월드 좌표 → 그리드 좌표 변환
     private Vector2Int WorldToGrid(Vector3 worldPos)
     {
         int gx = Mathf.FloorToInt(worldPos.x / gridSize.x);
         int gy = Mathf.FloorToInt(worldPos.y / gridSize.y);
         return new Vector2Int(gx, gy);
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.3f);
+        for (int i = -10; i <= 10; i++)
+        {
+            Gizmos.DrawLine(new Vector3(i * 10, -100, 0), new Vector3(i * 10, 100, 0));
+            Gizmos.DrawLine(new Vector3(-100, i * 10, 0), new Vector3(100, i * 10, 0));
+        }
+        
+        Gizmos.color = Color.yellow;
+        for (int i = -5; i <= 5; i++)
+        {
+            float pos = i * gridSize.x;
+            Gizmos.DrawLine(new Vector3(pos, -100, 0), new Vector3(pos, 100, 0));
+            Gizmos.DrawLine(new Vector3(-100, pos, 0), new Vector3(100, pos, 0));
+        }
     }
 }
