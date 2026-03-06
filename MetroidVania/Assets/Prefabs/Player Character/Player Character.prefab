@@ -15,8 +15,7 @@ GameObject:
   - component: {fileID: 7620764902203311487}
   - component: {fileID: 6970145806358493772}
   - component: {fileID: 1062798493769089292}
-  - component: {fileID: 7537205321298975953}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 3}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4193994861958648688}
@@ -86,10 +85,10 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4723107735738678597, guid: edb666d5ca1144e45ad7b1cb5441a0f5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7584905, g: 0.7584905, b: 0.7584905, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -147,17 +146,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f76353c586ef87744a2317a56bc979c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  characterData: {fileID: 11400000, guid: 21fa6a98f22d2534c86fad6cb58f5f42, type: 2}
+  stats:
+    level: 0
+    maxHealth: 0
+    currentHealth: 0
+    maxMana: 0
+    currentMana: 0
+    attack: 0
+    defense: 0
+    speed: 0
   moveInput: {x: 0, y: 0}
   rb: {fileID: 0}
   animator: {fileID: 0}
   moveSpeed: 5
-  jumpForce: 7
+  jumpForce: 7.5
   groundCheck: {fileID: 4193994861958648688}
-  groundCheckDistance: 0.29
+  groundCheckBoxSize: {x: 0.3, y: 0.05}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   jumpBufferTime: 0.15
+  jumpBufferCounter: 0
+  attackRange: 0.8
+  attackOffset: 0.5
+  attackStartTime: 0.1
+  attackActiveTime: 0.1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
   ComboStep: 0
   comboDelay: 1
   bufferedAttack: 0
@@ -240,19 +257,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7537205321298975953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3225218073660232667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606c82085638a68488306b9d1c268b75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Character
-  characterData: {fileID: 0}
 --- !u!1 &6274952585119478741
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4193994861958648688}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +282,7 @@ Transform:
   m_GameObject: {fileID: 6274952585119478741}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.331, z: 0}
+  m_LocalPosition: {x: 0, y: -0.327, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

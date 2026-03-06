@@ -18,4 +18,4 @@ MonoBehaviour:
   baseMana: 100
   baseAttack: 1
   baseDefense: 1
-  baseSpeed: 5
+  baseSpeed: 6

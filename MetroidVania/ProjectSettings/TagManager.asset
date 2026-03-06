@@ -11,10 +11,10 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Player Character
-  - 
-  - 
-  - 
+  - Player
+  - Enemies
+  - Enemies Body
+  - Enemies Trigger
   - Map Object
   - 
   - 
