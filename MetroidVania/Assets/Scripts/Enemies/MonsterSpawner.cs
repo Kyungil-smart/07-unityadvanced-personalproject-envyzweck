@@ -28,6 +28,18 @@ public class MonsterSpawner : MonoBehaviour
     private int _currentMonsterCount = 0;
     private float _timer = 0f;
 
+    private void Start()
+    {
+        InitialSpawn();
+    }
+    private void InitialSpawn()
+    {
+        while (_currentMonsterCount < maxMonsterCount)
+        {
+            SpawnRandomMonster();
+        }
+        _timer = 0f;
+    }
     private void Update()
     {
         if (_currentMonsterCount < maxMonsterCount)

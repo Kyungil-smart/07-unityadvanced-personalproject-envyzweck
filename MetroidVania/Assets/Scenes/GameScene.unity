@@ -18967,11 +18967,11 @@ PrefabInstance:
       objectReference: {fileID: 900572196}
     - target: {fileID: 4809356765963402174, guid: 708fb42c3251f6d4284ed8d791a8254f, type: 3}
       propertyPath: attackRange
-      value: 0.4
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4809356765963402174, guid: 708fb42c3251f6d4284ed8d791a8254f, type: 3}
       propertyPath: attackOffset
-      value: 0.7
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: 4809356765963402174, guid: 708fb42c3251f6d4284ed8d791a8254f, type: 3}
       propertyPath: bufferedAttack
