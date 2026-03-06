@@ -74,10 +74,18 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         moveInput = _playerInput.actions["Move"].ReadValue<Vector2>();
         // 캐릭터 플립
-        if (moveInput.x > 0)
-            _spriteRenderer.flipX = false;
-        else if (moveInput.x < 0)
-            _spriteRenderer.flipX = true;
+        if (moveInput.x > 0.01f)
+        {
+            Vector3 currentScale = transform.localScale;
+            currentScale.x = Mathf.Abs(currentScale.x); 
+            transform.localScale = currentScale;
+        }
+        else if (moveInput.x < -0.01f)
+        {
+            Vector3 currentScale = transform.localScale;
+            currentScale.x = -Mathf.Abs(currentScale.x);
+            transform.localScale = currentScale;
+        }
 
         // 점프 입력 버퍼
         if (_playerInput.actions["Jump"].triggered)
@@ -143,24 +151,19 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void OnDrawGizmosSelected()
     {
-        // [MODIFIED] 0.5f 대신 실제 변수인 attackOffset을 사용합니다.
-        float dir = (_spriteRenderer != null && _spriteRenderer.flipX) ? -1f : 1f;
+        float dir = transform.localScale.x; 
         
-        // 캐릭터의 중심에서 attackOffset만큼 떨어진 곳을 공격 중심으로 설정
         Vector3 attackPos = transform.position + new Vector3(dir * attackOffset, 0, 0);
 
-        // 기본 가이드 라인 (하늘색 선)
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(attackPos, attackRange);
 
-        // 공격 판정 프레임 시각화
         if (IsAttackingFrame)
         {
-            Gizmos.color = new Color(1f, 0f, 0f, 0.5f); // 반투명 빨간색
+            Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
             Gizmos.DrawSphere(attackPos, attackRange);
         }
         
-        // 지면 체크 박스도 시각화 해주면 좋습니다 (옵션)
         if (groundCheck != null)
         {
             Gizmos.color = Color.yellow;

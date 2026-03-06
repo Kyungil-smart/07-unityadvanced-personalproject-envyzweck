@@ -11,11 +11,8 @@ public class JumpState : IState
 
     public void Enter()
     {
-        // y축 초기화
-        _player.rb.linearVelocity = new Vector2(_player.rb.linearVelocity.x, 0f);
-
-        _player.rb.AddForce(Vector2.up * _player.jumpForce, ForceMode2D.Impulse);
-
+        _player.jumpBufferCounter = 0;
+        _player.rb.linearVelocity = new Vector2(_player.rb.linearVelocity.x, _player.jumpForce);
         _player.animator.SetTrigger("Jump");
     }
 
